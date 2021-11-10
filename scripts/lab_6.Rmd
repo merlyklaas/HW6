@@ -1,0 +1,142 @@
+---
+title: "Homework 6"
+author: "Merly Klaas"
+date: "11/9/2021"
+output:html_document:
+    highlight: kate
+      
+---
+
+### 1. Create a new R Markdown document and modify the YAML to 
+* Include your name
+* Change the syntax highlighting to any scheme but the default. The options are default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, and textmate. You can also use NULL if you want no highlighting.
+
+
+### 2. Create a code chunk that:
+* Loads all the packages you decide to use for the lab,
+* Sets a global chunk option to make all figures 6.5" wide and the height to a value that makes sense to you, and
+* Does not display the code, or any warnings or messages from the code, but evaluates every function/line of the code.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.height = 6.5,
+	fig.width = 6.5,
+	message = FALSE,
+	warning = FALSE
+)
+library (ggplot2)
+library (tidyverse)
+library (dplyr)
+library(here)
+library (rio)
+library (janitor)
+library (pander)
+```
+
+### 3. Import the ecls-k_samp.sav dataset (found here), 
+```{r import-data}
+ecls <- import(here("data", "ecls-k_samp.sav")) %>% 
+  clean_names() %>% 
+  characterize() %>% 
+  as_tibble()
+
+```
+
+ ### Produce the plot below. Do not show the code you used (colors, themes, etc. don’t matter here).
+
+```{r Plot, echo=FALSE}
+ecls %>% 
+  filter(ethnic == "BLACK OR AFRICAN AMERICAN, NON-HISPANIC"|
+                ethnic == "HISPANIC, RACE NOT SPECIFIED"|
+                ethnic == "HISPANIC, RACE SPECIFIED" |
+                ethnic == "WHITE, NON-HISPANIC") %>% 
+  ggplot(aes (t1mscale, t2mscale)) +
+  geom_smooth(method=lm, aes(color = school_type)) +
+  geom_point() +
+  facet_wrap(vars(ethnic))
+
+
+```
+
+### 4. Run The following lines of code to store the mean and standard deviation of t1mscale. 
+Extend this code to calculate (in the same code chunk) the mean and standard deviation of t2mscale. Note this code assumes you read the ecls-k dataset in as an object called eclsk - you should substitute in whatever the name is for your data object. The code below also assumes you have used clean_names and one more thing about the data we talked about in class.
+
+```{r mean-sd-calculation}
+t1mean <- mean(ecls$t1mscale, na.rm = TRUE)
+t1sd <- sd(ecls$t1mscale, na.rm = TRUE) 
+t2mean <- mean(ecls$t2mscale, na.rm = TRUE) 
+t2sd <- sd (ecls$t2mscale, na.rm= TRUE)
+
+```
+
+### 5. Using the values you calculated above, use an inline code evaluation below to report the means and SDs for each of the two time points (t1mscale and t2mscale). Also report the difference between the means (i.e., the average gain).
+
+>The average Math score for all student in fall term is **`r t1mean`** with the standard deviation **`r t1sd`**, while in the spring the average Math score for all students is **`r t2mean`** with the standard deviation **`r t2sd`**. This means, there is **`r t2mean - t1mean`** points increase for student within 6 months of schooling.  
+
+### 6. Pretend you are trying to teach somebody how to load data. 
+Describe the process below that we’ve discussed in class, including why it helps reproducibility, and echo chunks of code as necessary without actually evaluating any of it. Include some text that is bold and some that is italics.
+
+# Loading Data Using [{here}](https://here.r-lib.org/) package 
+
+#### Hello there, 
+This tutorial is designed to help you, my fellow `{r}` beginner, to hopefuly have an easy start with `{r}`. I remember my first attempt to use `{r}` in __Multiple Regression__ class last year. The very first step was to load the data and I spent __hours!!!__ _(not kidding)_ just to successfully doing it. My professor gave us his code with a note __**"change this direction to your own path!"**__ and _arrrghh_ it almost made me give up! Until I learn about `{here}` package! The following is the objective of [{here}](https://here.r-lib.org/) package: 
+
+>The goal of the here package is to enable easy file referencing in project-oriented workflows. In contrast to using {setwd()}, which is fragile and dependent on the way you organize your files, here uses the top-level directory of a project to easily build paths to files.
+
+In more simplified words, the function `{here ()}` customizes the path on your local computer. Therefore, everyone can use the same line of command to load data on each of their computer. This particularly very useful When you collaborate and share your code with your collage. No more **error warning**. 
+
+Here are three simple steps: 
+
+## 1. Installation 
+Open your r project and Install `{here}` package and load it on your computer 
+
+```{r installation, echo=TRUE, eval=FALSE}
+install.packages("here")
+library (here)
+```
+
+## 2. Check your path. 
+To check you can run this line of code on your console. It should give back the path of your current project
+
+```{r check-path, echo=TRUE, eval=FALSE}
+here()
+
+```
+
+## 3. Load data from your folder: 
+* create a name of your data using the assignment operator [{<-}](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/assignOps)
+* use a reader function (for base r: read.csv).  )
+
+For this example, I want to load __student.csv__ that is located inside my __data__ folder. 
+
+
+```{r load-data, echo=TRUE, eval=FALSE}
+df <- read.csv(here("folder_name", "file_name"))
+
+df <- read.csv(here ("data", "student.csv"))
+
+```
+
+You can also use `import()` from [{rio}](https://cran.r-project.org/web/packages/rio/index.html)
+
+```{r load-rio, echo=TRUE, eval=FALSE}
+df <- import(here ("data", "student.csv"))
+
+```
+
+or `read_csv` from [{readr}](https://readr.tidyverse.org/)
+
+```{r load-readr, echo=TRUE, eval=FALSE}
+df <- read_csv(here ("data", "student.csv"))
+```
+
+
+If someone else use this code, as long as they have the same __file__ on the __data__ folder inside their local `R Project`, this code will run just fine! 
+
+### **That's it!** 
+
+Let us all thank **Jenny Bryan** the creator of {here package}
+![Jenny Bryan](https://opengraph.githubassets.com/92d9ae173a735fcc11ee81398ed1e3b79183bc59000511f6088fe0db6b50b5f6/jennybc/here_here) for her genius work! You can also check her [github page](https://github.com/jennybc/here_here) to learn more other functions in `here package`. 
+
+

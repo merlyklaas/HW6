@@ -25,13 +25,13 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE
 )
-library (ggplot2)
-library (tidyverse)
-library (dplyr)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
 library(here)
-library (rio)
-library (janitor)
-library (pander)
+library(rio)
+library(janitor)
+library(pander)
 ```
 
 ### 3. Import the ecls-k_samp.sav dataset (found here), 
@@ -93,7 +93,7 @@ Open your r project and Install `{here}` package and load it on your computer
 
 ```{r installation, echo=TRUE, eval=FALSE}
 install.packages("here")
-library (here)
+library(here)
 ```
 
 ## 2. Check your path. 
@@ -114,21 +114,21 @@ For this example, I want to load __student.csv__ that is located inside my __dat
 ```{r load-data, echo=TRUE, eval=FALSE}
 df <- read.csv(here("folder_name", "file_name"))
 
-df <- read.csv(here ("data", "student.csv"))
+df <- read.csv(here("data", "student.csv"))
 
 ```
 
 You can also use `import()` from [{rio}](https://cran.r-project.org/web/packages/rio/index.html)
 
 ```{r load-rio, echo=TRUE, eval=FALSE}
-df <- import(here ("data", "student.csv"))
+df <- import(here("data", "student.csv"))
 
 ```
 
 or `read_csv` from [{readr}](https://readr.tidyverse.org/)
 
 ```{r load-readr, echo=TRUE, eval=FALSE}
-df <- read_csv(here ("data", "student.csv"))
+df <- read_csv(here("data", "student.csv"))
 ```
 
 
@@ -136,7 +136,9 @@ If someone else use this code, as long as they have the same __file__ on the __d
 
 ### **That's it!** 
 
-Let us all thank **Jenny Bryan** the creator of {here package}
-![Jenny Bryan](https://opengraph.githubassets.com/92d9ae173a735fcc11ee81398ed1e3b79183bc59000511f6088fe0db6b50b5f6/jennybc/here_here) for her genius work! You can also check her [github page](https://github.com/jennybc/here_here) to learn more other functions in `here package`. 
+Let us all thank [**Kirill Müller**](https://github.com/krlmlr) the creator of {here package} for his genius work! 
+![**Kirill Müller**](https://www.cynkra.com/user/img/about/kirill2.jpg)  
+
+You can also check this [page](https://github.com/jennybc/here_here) to learn more other functions in `here package`. 
 
 

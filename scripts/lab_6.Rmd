@@ -136,7 +136,7 @@ If someone else use this code, as long as they have the same __file__ on the __d
 
 ### **That's it!** 
 
-Let us all thank [**Kirill Müller**](https://github.com/krlmlr) the creator of {here package} for his genius work! 
+Let us all thank [**Kirill Müller**](https://github.com/krlmlr){width=50%} the creator of `{here package}` for his genius work! 
 ![**Kirill Müller**](https://www.cynkra.com/user/img/about/kirill2.jpg)  
 
 You can also check this [page](https://github.com/jennybc/here_here) to learn more other functions in `here package`. 
